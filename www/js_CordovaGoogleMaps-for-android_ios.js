@@ -729,6 +729,7 @@ CordovaGoogleMaps.prototype.getMap = function (div, mapOptions) {
     var elemId, ele;
 
     if (common.isDom(oldDiv)) {
+      common.detachTransparentClass(oldDiv);
       oldDiv.removeAttribute('__pluginMapId');
       ele = oldDiv;
       while (ele && ele != document.body.parentNode) {
@@ -752,7 +753,7 @@ CordovaGoogleMaps.prototype.getMap = function (div, mapOptions) {
     }
 
     if (common.isDom(newDiv)) {
-
+      common.attachTransparentClass(newDiv);
       elemId = common.getPluginDomId(newDiv);
 
       elem = newDiv;
@@ -895,9 +896,6 @@ CordovaGoogleMaps.prototype._remove = function (mapId) {
       }
     });
 
-    document.body.style.transform = undefined;
-
-
     self.MAPS[mapId].destroy();
   }
 
@@ -918,6 +916,8 @@ CordovaGoogleMaps.prototype._remove = function (mapId) {
       ele.className = ele.className.replace(/\s+/g, ' ');
     }
   }
+
+  document.body.removeAttribute('style');
 };
 
 function nativeCallback(params) {
