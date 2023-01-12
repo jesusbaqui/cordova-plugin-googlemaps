@@ -894,6 +894,10 @@ CordovaGoogleMaps.prototype._remove = function (mapId) {
         //        common.detachTransparentClass(ele);
       }
     });
+
+    document.body.style.transform = undefined;
+
+
     self.MAPS[mapId].destroy();
   }
 
@@ -1011,7 +1015,7 @@ function postMapInit(map, div, options) {
   if (common.isDom(div)) {
     // If the given div is not fully ready, wait a little
     if (!common.shouldWatchByNative(div)) {
-      setTimeout(function() {
+      setTimeout(function () {
         common.nextTick(postMapInit.bind(self, map, div, options));
       }, 50);
       return;
@@ -1029,7 +1033,7 @@ function postMapInit(map, div, options) {
     var elem = div;
     var isCached;
     var zIndexList = [];
-    while(elem && elem.nodeType === Node.ELEMENT_NODE) {
+    while (elem && elem.nodeType === Node.ELEMENT_NODE) {
       elemId = common.getPluginDomId(elem);
       if (common.shouldWatchByNative(elem)) {
         isCached = elemId in self.domPositions;
@@ -1053,7 +1057,7 @@ function postMapInit(map, div, options) {
 
     // Calculate the native view z-index
     var depth = 0;
-    zIndexList.forEach(function(info, idx) {
+    zIndexList.forEach(function (info, idx) {
       if (!info.isInherit && info.z === 0) {
         depth *= 10;
       }
@@ -1072,7 +1076,7 @@ function postMapInit(map, div, options) {
     elemId = common.getPluginDomId(div);
     self.domPositions[elemId].isMap = true;
 
-    cordova_exec(function() {
+    cordova_exec(function () {
       map.getMap.apply(map, args);
     }, null, 'CordovaGoogleMaps', 'putHtmlElements', [self.domPositions]);
   } else {
